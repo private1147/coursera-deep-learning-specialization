@@ -11,7 +11,7 @@ This is the first course of the deep learning specialization at [Coursera](https
       * [What is a (Neural Network) NN?](#what-is-a-neural-network-nn)
       * [Supervised learning with neural networks](#supervised-learning-with-neural-networks)
       * [Why is deep learning taking off?](#why-is-deep-learning-taking-off)
-   * [Neural Networks Basics](#neural-networks-basics)
+   * [Neural Networks Basics](#neural-networks-basics-week-2)
       * [Binary classification](#binary-classification)
       * [Logistic regression](#logistic-regression)
       * [Logistic regression cost function](#logistic-regression-cost-function)
@@ -26,7 +26,7 @@ This is the first course of the deep learning specialization at [Coursera](https
       * [Vectorizing Logistic Regression](#vectorizing-logistic-regression)
       * [Notes on Python and NumPy](#notes-on-python-and-numpy)
       * [General Notes](#general-notes)
-   * [Shallow neural networks](#shallow-neural-networks)
+   * [Shallow neural networks](#shallow-neural-networks-week-3)
       * [Neural Networks Overview](#neural-networks-overview)
       * [Neural Network Representation](#neural-network-representation)
       * [Computing a Neural Network's Output](#computing-a-neural-networks-output)
@@ -36,7 +36,7 @@ This is the first course of the deep learning specialization at [Coursera](https
       * [Derivatives of activation functions](#derivatives-of-activation-functions)
       * [Gradient descent for Neural Networks](#gradient-descent-for-neural-networks)
       * [Random Initialization](#random-initialization)
-   * [Deep Neural Networks](#deep-neural-networks)
+   * [Deep Neural Networks](#deep-neural-networks-week-4)
       * [Deep L-layer neural network](#deep-l-layer-neural-network)
       * [Forward Propagation in a Deep Network](#forward-propagation-in-a-deep-network)
       * [Getting your matrix dimensions right](#getting-your-matrix-dimensions-right)
@@ -63,13 +63,14 @@ Here are the course summary as its given on the course [link](https://www.course
 
 
 
-## Introduction to deep learning
+## Introduction to deep learning (WEEK-1)
 
 > Be able to explain the major trends driving the rise of deep learning, and understand where and how it is applied today.
 
 ### What is a (Neural Network) NN?
 
-- Single neuron == linear regression without applying activation(perceptron)
+- Linear regression is modelling the linear relationship between dpendent variable (y) and one or more indpendent variables (x) by finding the slope/weights of the linear line.
+- Single neuron == linear regression with/without applying activation
 - Basically a single neuron will calculate weighted sum of input(W.T*X) and then we can set a threshold to predict output in a perceptron. If weighted sum of input cross the threshold, perceptron fires and if not then perceptron doesn't predict.
 - Perceptron can take real values input or boolean values.
 - Actually, when w⋅x+b=0 the perceptron outputs 0.
@@ -124,7 +125,7 @@ Here are the course summary as its given on the course [link](https://www.course
 
   ​
 
-## Neural Networks Basics
+## Neural Networks Basics (WEEK-2)
 
 > Learn to set up a machine learning problem with a neural network mindset. Learn to use vectorization to speed up your models.
 
@@ -135,14 +136,13 @@ Here are the course summary as its given on the course [link](https://www.course
   - Image taken from [3.bp.blogspot.com](http://3.bp.blogspot.com)
 - He talked about an example of knowing if the current image contains a cat or not.
 - Here are some notations:
-  - `M is the number of training vectors`
-  - `Nx is the size of the input vector`
-  - `Ny is the size of the output vector`
-  - `X(1) is the first input vector`
-  - `Y(1) is the first output vector`
-  - `X = [x(1) x(2).. x(M)]`
-  - `Y = (y(1) y(2).. y(M))`
-- We will use python in this course.
+  - `m is the number of training vectors`
+  - $n_x$ `is the size of the input vector`
+  - $n_y$ `is the size of the output vector`
+  - $x^{(1)}$ `is the first input vector`
+  - $y^{(1)}$ `is the first output vector`
+  - `X = [`$x^{(1)}$ $x^{(2)}$ `...` $x^{(m)}$ `]` each $x^i$ spreaded column wise
+  - `Y = [`$y^{(1)}$ $y^{(2)}$ `...` $y^{(m)}$ `]`
 - In NumPy we can make matrices and make operations on them in a fast and reliable time.
 
 ### Logistic regression
@@ -150,8 +150,8 @@ Here are the course summary as its given on the course [link](https://www.course
 - Algorithm is used for classification algorithm of 2 classes.
 - Equations:
   - Simple equation:	`y = wx + b`
-  - If x is a vector: `y = w(transpose)x + b`
-  - If we need y to be in between 0 and 1 (probability): `y = sigmoid(w(transpose)x + b)`
+  - If x is a vector: $y = w^T + b$
+  - If we need y to be in between 0 and 1 (probability): $y = \sigma(w^Tx + b)$
   - In some notations this might be used: `y = sigmoid(w(transpose)x)`
     - While `b` is `w0` of `w` and we add `x0 = 1`. but we won't use this notation in the course (Andrew said that the first notation is better).
 - In binary classification `Y` has to be between `0` and `1`.
@@ -159,9 +159,9 @@ Here are the course summary as its given on the course [link](https://www.course
 
 ### Logistic regression cost function
 
-- First loss function would be the square root error:  `L(y',y) = 1/2 (y' - y)^2`
+- First loss function would be the square root error:  $L(y',y) = \frac{1}{2} (y' - y)^2$
   - But we won't use this notation because it leads us to optimization problem which is non convex, means it contains local optimum points.
-- This is the function that we will use: `L(y',y) = - (y*log(y') + (1-y)*log(1-y'))`
+- This is the function that we will use: $L(y',y) = - (y*\log(y') + (1-y)*\log(1-y'))$
 - To explain the last function lets see:
   - if `y = 1` ==> `L(y',1) = -log(y')`  ==> we want `y'` to be the largest   ==> `y`' biggest value is 1
   - if `y = 0` ==> `L(y',0) = -log(1-y')` ==> we want `1-y'` to be the largest ==> `y'` to be smaller as possible because it can only has 1 value.
@@ -240,14 +240,20 @@ Here are the course summary as its given on the course [link](https://www.course
   ![](Images/09.png)
 
 - Then from right to left we will calculate derivations compared to the result:
+$$
+\begin{aligned}
+  \frac{d(l)}{d(a)} &= -\frac{y}{a} + \frac{1 - y}{1 - a} \quad &&: \text{from binary cross-entropy(BCE) loss} \\
+  \frac{d(a)}{d(z)} &= a(1 - a) \quad &&: \text{sigmoid derivative} \\
+  \frac{d(l)}{d(z)} &= \frac{d(l)}{d(a)} \cdot \frac{d(a)}{d(z)} \\
+  &= \left(-\frac{y}{a} + \frac{1 - y}{1 - a} \right) \cdot a(1 - a) \\
+  &= a - y \quad &&: \text{simplified expression} \\
+  \frac{dw_1}{d(l)} &= x_1 \cdot \frac{d(l)}{d(z)} \\
+  \frac{dw_2}{d(l)} &= x_2 \cdot \frac{d(l)}{d(z)} \\
+  \frac{db}{d(l)} &= \frac{d(l)}{d(z)}
+\end{aligned}
 
-  ```
-  	d(a)  = d(l)/d(a) = -(y/a) + ((1-y)/(1-a))
-  	d(z)  = d(l)/d(z) = a - y
-  	d(W1) = X1 * d(z)
-  	d(W2) = X2 * d(z)
-  	d(B)  = d(z)
-  ```
+$$
+
 
 - From the above we can conclude the logistic regression pseudo code:
 
@@ -332,7 +338,7 @@ Here are the course summary as its given on the course [link](https://www.course
   v = image.reshape(image.shape[0]*image.shape[1]*image.shape[2],1)  #reshapes the image.
   ```
 
-- Gradient descent converges faster after normalization of the input matrices.
+- Gradient descent converges faster after normalization of the input matrices because it prevents vanishing gradient descent problem which is caused due to the slope of common activation functions like Sigmoid/ReLU is close to 0 when the input is far away from origin.
 
 ### General Notes
 
@@ -349,7 +355,7 @@ Here are the course summary as its given on the course [link](https://www.course
 - [Pieter Abbeel](https://www2.eecs.berkeley.edu/Faculty/Homepages/abbeel.html) is one of the best in deep reinforcement learning.
 
 
-## Shallow neural networks
+## Shallow neural networks (WEEK-3)
 
 > Learn to build a neural network with one hidden layer, using forward propagation and backpropagation.
 
@@ -404,6 +410,9 @@ Here are the course summary as its given on the course [link](https://www.course
 
 ### Vectorizing across multiple examples
 
+- Equations of hidden layers
+  - ![](Images/05-2.png)
+  - ![](Images/05-3.png)
 - Pseudo code for forward propagation for the 2 layers NN:
 
   ```
@@ -423,7 +432,7 @@ Here are the course summary as its given on the course [link](https://www.course
   A2 = sigmoid(Z2)  # shape of A2 is (1,m)
   ```
 
-- If you notice always m is the number of columns.
+- If you notice always m is the number of columns, which is the number of training examples and the number of rows is the number of $n_h$ hidden units.
 - In the last example we can call `X` = `A0`. So the previous step can be rewritten as:
 
   ```
@@ -546,6 +555,9 @@ Here are the course summary as its given on the course [link](https://www.course
 - How we derived the 6 equations of the backpropagation:   
   ![](Images/06.png)
 
+- Summary of gradient descent with 1 example and m examples:
+  ![](Images/06-2.png)
+
 ### Random Initialization
 
 - In logistic regression it wasn't important to initialize the weights randomly, while in NN we have to initialize them randomly.
@@ -565,7 +577,7 @@ Here are the course summary as its given on the course [link](https://www.course
 
 - Constant 0.01 is alright for 1 hidden layer networks, but if the NN is deep this number can be changed but it will always be a small number.
 
-## Deep Neural Networks
+## Deep Neural Networks (WEEK-4)
 
 > Understand the key computations underlying deep learning, use them to build and train deep neural networks, and apply it to computer vision.
 
